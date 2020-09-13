@@ -1,2 +1,6 @@
 pwaqi
 streamlit
+geopandas
+geopy
+streamlit-HZ-py2.py3-none-any.whl
+purpleair

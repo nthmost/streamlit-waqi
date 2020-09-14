@@ -26,9 +26,21 @@ def get_distance(lat1, lon1, lat2, lon2):
     return R * c
 
 
+def get_us_aqi(ppm25avg):
+    # https://cfpub.epa.gov/airnow/index.cfm?action=airnow.calculator
+    # https://forum.airnowtech.org/t/the-aqi-equation/169    
+    # https://en.wikipedia.org/wiki/Air_quality_index
+
+    pass
+
+
+
+
 def get_relevant_sensors(df, lat, lon, radius):
     # Apply distance function to dataframe
     df['dist']=list(map(lambda k: get_distance(df.loc[k]['lat'],df.loc[k]['lon'], lat, lon), df.index))
+
+    #df['usaqi']=list(map(lambda k: get_usaqi(df.
 
     # This will give all locations within radius of X km
     closest = df[df['dist'] < radius]
@@ -38,6 +50,5 @@ def get_relevant_sensors(df, lat, lon, radius):
 
     # We just want the "outside" ones.
     return recent[recent['location_type']=="outside"]
-
 
 

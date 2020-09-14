@@ -13,8 +13,7 @@ from df_math import get_relevant_sensors
 
 
 # CONFIGURATION 
-CONTAINERS_PER_ROW = 3
-NUM_ROWS = 2
+DEFAULT_CONTAINERS_PER_ROW = 3
 DEFAULT_RADIUS = 2
 DEFAULT_LAT = 37.779310
 DEFAULT_LON = -122.466370
@@ -53,6 +52,9 @@ with st.sidebar:
     st.write("Distance from epicenter in KM")
     radius = st.number_input(label="radius", value=DEFAULT_RADIUS)
 
+    st.write("Set sensor circles per row")
+    circles_per_row = st.number_input(label="circles per row", value=DEFAULT_CONTAINERS_PER_ROW)
+
 
 # Fill the Sensor grid if we know where we live.
 if lat and lon:
@@ -82,7 +84,7 @@ with st.collapsible_container(label="map"):
 # MAIN
 
 # set up the layout grid
-COLUMNS = st.columns(CONTAINERS_PER_ROW)
+COLUMNS = st.columns(circles_per_row)
 
 # SENSOR GRID
 
@@ -94,7 +96,7 @@ for idx in range(len(SENSORS)):
         st.write(sensor_div(sensor[SENSOR_AVG_KEY]), unsafe_allow_html=True)
         st.write(sensor["name"])
 
-    if (idx % CONTAINERS_PER_ROW) == 0:
+    if (idx % circles_per_row) == 0:
         container_x = 0
     else:
         container_x += 1

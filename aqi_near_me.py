@@ -60,7 +60,11 @@ if lat and lon:
     SENSORS = relevant_sensors.to_dict("records")
 
 
-with st.container():
+st.title("SENSOR GRID")
+#st.write("<hr />", unsafe_allow_html=True)
+
+
+with st.collapsible_container(label="map"):
     st.map(relevant_sensors)
 
 
@@ -76,9 +80,6 @@ with st.container():
 
 
 # MAIN
-
-st.title("SENSOR GRID")
-st.write("<hr />", unsafe_allow_html=True)
 
 # set up the layout grid
 COLUMNS = st.columns(CONTAINERS_PER_ROW)

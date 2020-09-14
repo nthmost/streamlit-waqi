@@ -3,4 +3,4 @@ streamlit
 geopandas
 geopy
 streamlit-HZ-py2.py3-none-any.whl
-purpleair
+git+git://github.com/nthmost/purple_air_api/purpleair@master#egg=purpleair

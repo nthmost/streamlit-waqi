@@ -26,7 +26,7 @@ def get_distance(lat1, lon1, lat2, lon2):
     return R * c
 
 
-def get_relevant_sensors(df):
+def get_relevant_sensors(df, lat, lon, radius):
     # Apply distance function to dataframe
     df['dist']=list(map(lambda k: get_distance(df.loc[k]['lat'],df.loc[k]['lon'], lat, lon), df.index))
 

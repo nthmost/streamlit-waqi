@@ -7,6 +7,9 @@ from math import sin, cos, sqrt, atan2, radians
 # (Discard any sensor reading less fresh than 10s. i.e. technically WACK!)
 SENSOR_FRESHNESS_THRESHOLD = 10
 
+# Which average to use to create US AQI.  Options: 10min_avg, 30min_avg... 
+SENSOR_AVG_KEY = "10min_avg"
+
 #Distance function between two lat/lon
 #https://stackoverflow.com/questions/58548566/selecting-rows-in-geopandas-or-pandas-based-on-latitude-longitude-and-radius
 def get_distance(lat1, lon1, lat2, lon2):
@@ -26,12 +29,12 @@ def get_distance(lat1, lon1, lat2, lon2):
     return R * c
 
 
-def get_us_aqi(ppm25avg):
+def get_usaqi(ppm25avg):
     # https://cfpub.epa.gov/airnow/index.cfm?action=airnow.calculator
     # https://forum.airnowtech.org/t/the-aqi-equation/169    
     # https://en.wikipedia.org/wiki/Air_quality_index
 
-    pass
+    return ppm25avg
 
 
 
@@ -40,7 +43,7 @@ def get_relevant_sensors(df, lat, lon, radius):
     # Apply distance function to dataframe
     df['dist']=list(map(lambda k: get_distance(df.loc[k]['lat'],df.loc[k]['lon'], lat, lon), df.index))
 
-    #df['usaqi']=list(map(lambda k: get_usaqi(df.
+    df['usaqi']=list(map(lambda k: get_usaqi(df.loc[k][SENSOR_AVG_KEY]), df.index))
 
     # This will give all locations within radius of X km
     closest = df[df['dist'] < radius]

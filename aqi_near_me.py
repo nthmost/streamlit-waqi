@@ -17,23 +17,13 @@ DEFAULT_CONTAINERS_PER_ROW = 3
 DEFAULT_RADIUS = 2
 DEFAULT_LAT = 37.779310
 DEFAULT_LON = -122.466370
-SENSOR_AVG_KEY = "30min_avg"
-
-
-# One-time initialization from Purple Air (This file is ~12MB)
-ALL_WORLD_SENSOR_DATA_PATH = "all_world_sensors.json"
-WORLD_SENSORS = None
-
-if os.path.exists(ALL_WORLD_SENSOR_DATA_PATH):
-    WORLD_SENSORS = SensorList(local_data_path=ALL_WORLD_SENSOR_DATA_PATH)
-else:
-    WORLD_SENSORS = SensorList()
-    WORLD_SENSORS.write_to_disk(ALL_WORLD_SENSOR_DATA_PATH)
+DEFAULT_RELOAD_PERIOD = 60   # time in seconds for autoreloading sensors
 
 
 # Every-Time Initialization
 
 SENSORS = {}
+WORLD_SENSORS = SensorList()
 all_useful_sensors_df = WORLD_SENSORS.to_dataframe("useful")
 relevant_sensors = None
 
@@ -41,6 +31,9 @@ relevant_sensors = None
 
 with st.sidebar:
     st.title("AQI Microclimates")
+
+    # reload_seconds = st.number_input(label="reload time (seconds)", value=DEFAULT_RELOAD_PERIOD, min_value=0, max_value=3600)
+
     st.subheader("Enter a location below")
 
     #TODO: get lat-long from address or map click (Leaflet?)
@@ -53,7 +46,7 @@ with st.sidebar:
     radius = st.number_input(label="radius", value=DEFAULT_RADIUS)
 
     st.write("Set sensor circles per row")
-    circles_per_row = st.number_input(label="circles per row", value=DEFAULT_CONTAINERS_PER_ROW)
+    circles_per_row = st.number_input(label="circles per row", value=DEFAULT_CONTAINERS_PER_ROW, min_value=2, max_value=10)
 
 
 # Fill the Sensor grid if we know where we live.
@@ -62,26 +55,14 @@ if lat and lon:
     SENSORS = relevant_sensors.to_dict("records")
 
 
+# MAIN
+
 st.title("SENSOR GRID")
 #st.write("<hr />", unsafe_allow_html=True)
 
-
-with st.collapsible_container(label="map"):
+with st.collapsible_container(label="Map of Nearby Sensors"):
     st.map(relevant_sensors)
 
-
-    #st.write(pdk.Deck(
-    #    map_style="mapbox://styles/mapbox/light-v9",
-    #    initial_view_state={
-    #        "latitude": lat,
-    #        "longitude": lon,
-    #        "zoom": 11,
-    #        "pitch": 50,
-    #        },
-    #    ))
-
-
-# MAIN
 
 # set up the layout grid
 COLUMNS = st.columns(circles_per_row)
@@ -93,7 +74,7 @@ for idx in range(len(SENSORS)):
     sensor = SENSORS[idx]
 
     with COLUMNS[container_x]:
-        st.write(sensor_div(sensor[SENSOR_AVG_KEY]), unsafe_allow_html=True)
+        st.write(sensor_div(sensor['usaqi']), unsafe_allow_html=True)
         st.write(sensor["name"])
 
     if (idx % circles_per_row) == 0:
@@ -101,4 +82,9 @@ for idx in range(len(SENSORS)):
     else:
         container_x += 1
 
+
+# RAW DATA
+
+with st.collapsible_container(label="Raw Data"):
+    st.write(relevant_sensors)
 

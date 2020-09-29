@@ -2,5 +2,5 @@ pwaqi
 streamlit
 geopandas
 geopy
-streamlit-HZ-py2.py3-none-any.whl
-git+git://github.com/nthmost/purple_air_api/purpleair@master#egg=purpleair
+purpleair
+streamlit-0.66.22-py2.py3-none-any.whl

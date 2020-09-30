@@ -44,14 +44,13 @@ def get_usaqi(ppm25avg):
     # https://forum.airnowtech.org/t/the-aqi-equation/169    
     # https://en.wikipedia.org/wiki/Air_quality_index
 
-    breakpoints = 
-        {1: {"i_high": 50, "i_low": 0, "c_high": 12, "c_low": 0}, 
-        {2: {"i_high": 100, "i_low": 51, "c_high": 35.4, "c_low": 12.1}, 
-        {3: {"i_high": 150, "i_low": 101, "c_high": 55.4, "c_low": 35.5}, 
-        {4: {"i_high": 200, "i_low": 151, "c_high": 150.4, "c_low": 55.5}, 
-        {5: {"i_high": 300, "i_low": 201, "c_high": 250.4, "c_low": 150.5}, 
-        {6: {"i_high": 400, "i_low": 301, "c_high": 350.4, "c_low": 250.5}, 
-        {7: {"i_high": 500, "i_low": 401, "c_high": 500.4, "c_low": 350.5}, 
+    breakpoints = {1: {"i_high": 50, "i_low": 0, "c_high": 12, "c_low": 0}, 
+        2: {"i_high": 100, "i_low": 51, "c_high": 35.4, "c_low": 12.1}, 
+        3: {"i_high": 150, "i_low": 101, "c_high": 55.4, "c_low": 35.5}, 
+        4: {"i_high": 200, "i_low": 151, "c_high": 150.4, "c_low": 55.5}, 
+        5: {"i_high": 300, "i_low": 201, "c_high": 250.4, "c_low": 150.5}, 
+        6: {"i_high": 400, "i_low": 301, "c_high": 350.4, "c_low": 250.5}, 
+        7: {"i_high": 500, "i_low": 401, "c_high": 500.4, "c_low": 350.5}, 
     }
 
 

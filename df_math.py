@@ -35,7 +35,7 @@ def calculate_usaqi(concentration, values):
     "Calculates USAQI given a pollutant concentration and a dict of AQI category values."
     ratio = ((values["i_high"] - values["i_low"]) / (values["c_high"] - values["c_low"]))
     cofactor = concentration - values["c_low"]
-    return (ratio * cofactor) - values["i_low"]
+    return (ratio * cofactor) + values["i_low"]
 
 
 

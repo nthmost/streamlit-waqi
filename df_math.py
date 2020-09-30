@@ -60,7 +60,7 @@ def get_usaqi(ppm25avg):
     for aqi_c, values in breakpoints.items():
         if ppm25avg <= values["c_high"]:
             if ppm25avg > values["c_low"]:
-                return calculate_usaqi(ppm25avg, values)
+                return int(calculate_usaqi(ppm25avg, values))
 
 
 

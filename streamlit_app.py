@@ -75,7 +75,7 @@ for idx in range(len(SENSORS)):
     sensor = SENSORS[idx]
 
     with COLUMNS[container_x]:
-        st.write(sensor_div(sensor['usaqi']), unsafe_allow_html=True)
+        st.write("%i" % sensor_div(sensor['usaqi']), unsafe_allow_html=True)
         st.write(sensor["name"])
         st.write("{:.2f} km".format(sensor["dist"]))
 

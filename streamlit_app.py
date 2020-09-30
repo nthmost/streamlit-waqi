@@ -24,7 +24,8 @@ DEFAULT_RELOAD_PERIOD = 60   # time in seconds for autoreloading sensors
 
 SENSORS = {}
 WORLD_SENSORS = SensorList()
-all_useful_sensors_df = WORLD_SENSORS.to_dataframe("useful")
+#all_useful_sensors_df = WORLD_SENSORS.to_dataframe("useful")
+all_useful_sensors_df = WORLD_SENSORS.to_dataframe(sensor_filter='useful', channel='parent')
 relevant_sensors = None
 
 # SIDEBAR

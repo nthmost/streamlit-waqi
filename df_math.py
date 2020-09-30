@@ -29,13 +29,39 @@ def get_distance(lat1, lon1, lat2, lon2):
     return R * c
 
 
+
+
+def calculate_usaqi(concentration, values):
+    "Calculates USAQI given a pollutant concentration and a dict of AQI category values."
+    ratio = ((values["i_high"] - values["i_low"]) / (values["c_high"] - values["c_low"]))
+    cofactor = concentration - values["c_low"]
+    return (ratio * cofactor) - values["i_low"]
+
+
+
 def get_usaqi(ppm25avg):
     # https://cfpub.epa.gov/airnow/index.cfm?action=airnow.calculator
     # https://forum.airnowtech.org/t/the-aqi-equation/169    
     # https://en.wikipedia.org/wiki/Air_quality_index
 
-    return ppm25avg
+    breakpoints = 
+        {1: {"i_high": 50, "i_low": 0, "c_high": 12, "c_low": 0}, 
+        {2: {"i_high": 100, "i_low": 51, "c_high": 35.4, "c_low": 12.1}, 
+        {3: {"i_high": 150, "i_low": 101, "c_high": 55.4, "c_low": 35.5}, 
+        {4: {"i_high": 200, "i_low": 151, "c_high": 150.4, "c_low": 55.5}, 
+        {5: {"i_high": 300, "i_low": 201, "c_high": 250.4, "c_low": 150.5}, 
+        {6: {"i_high": 400, "i_low": 301, "c_high": 350.4, "c_low": 250.5}, 
+        {7: {"i_high": 500, "i_low": 401, "c_high": 500.4, "c_low": 350.5}, 
+    }
 
+
+    # USAQI equation
+    # I={\frac {I_{high}-I_{low}}{C_{high}-C_{low}}}(C-C_{low})+I_{low}
+
+    for aqi_c, values in breakpoints.items():
+        if ppm25avg <= values["c_high"]:
+            if ppm25avg > values["c_low"]:
+                return calculate_usaqi(ppm25avg, values)
 
 
 

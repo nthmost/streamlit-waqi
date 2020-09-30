@@ -1,3 +1,2 @@
 purpleair
 streamlit-0.66.22-py2.py3-none-any.whl
-streamlit

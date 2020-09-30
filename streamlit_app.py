@@ -77,7 +77,7 @@ for idx in range(len(SENSORS)):
     with COLUMNS[container_x]:
         st.write(sensor_div(sensor['usaqi']), unsafe_allow_html=True)
         st.write(sensor["name"])
-        st.write(sensor["dist"], "km")
+        st.write("{:.2f} km".format(sensor["dist"]))
 
     if (idx % circles_per_row) == 0:
         container_x = 0

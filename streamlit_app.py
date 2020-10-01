@@ -61,12 +61,12 @@ if lat and lon:
 st.title("SENSOR GRID")
 #st.write("<hr />", unsafe_allow_html=True)
 
-with st.collapsible_container(label="Map of Nearby Sensors"):
+with st.beta_expander(label="Map of Nearby Sensors"):
     st.map(relevant_sensors)
 
 
 # set up the layout grid
-COLUMNS = st.columns(circles_per_row)
+COLUMNS = st.beta_columns(circles_per_row)
 
 # SENSOR GRID
 

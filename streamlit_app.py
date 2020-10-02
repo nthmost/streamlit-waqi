@@ -87,6 +87,6 @@ for idx in range(len(SENSORS)):
 
 # RAW DATA
 
-with st.collapsible_container(label="Raw Data"):
+with st.beta_expander(label="Raw Data"):
     st.write(relevant_sensors)
 

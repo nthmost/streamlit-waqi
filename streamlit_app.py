@@ -7,6 +7,7 @@ import numpy as np
 
 from purpleair.network import SensorList
 from purpleair.sensor import Sensor
+from geopy.geocoders import Nominatim
 
 from sensor_styling import sensor_div
 from df_math import get_relevant_sensors
@@ -15,6 +16,7 @@ from df_math import get_relevant_sensors
 # CONFIGURATION 
 DEFAULT_CONTAINERS_PER_ROW = 3
 DEFAULT_RADIUS = 2
+DEFAULT_ADDRESS = "777 Oak St, San Francisco CA"
 DEFAULT_LAT = 37.779310
 DEFAULT_LON = -122.466370
 DEFAULT_RELOAD_PERIOD = 60   # time in seconds for autoreloading sensors
@@ -22,11 +24,16 @@ DEFAULT_RELOAD_PERIOD = 60   # time in seconds for autoreloading sensors
 
 # Every-Time Initialization
 
+# Purple Air sensor data
 SENSORS = {}
 WORLD_SENSORS = SensorList()
-#all_useful_sensors_df = WORLD_SENSORS.to_dataframe("useful")
 all_useful_sensors_df = WORLD_SENSORS.to_dataframe(sensor_filter='useful', channel='parent')
 relevant_sensors = None
+lat = None
+lon = None
+
+# geopy address lookup object
+geolocator = Nominatim(user_agent="streamlit-waqi")
 
 # SIDEBAR
 
@@ -35,13 +42,19 @@ with st.sidebar:
 
     # reload_seconds = st.number_input(label="reload time (seconds)", value=DEFAULT_RELOAD_PERIOD, min_value=0, max_value=3600)
 
-    st.subheader("Enter a location below")
+    loctype = st.radio("Enter a location (choose type)", 
+                       ("address", "geo coordinates"))
 
-    #TODO: get lat-long from address or map click (Leaflet?)
-    #address = st.text_input(label="address")
+    if loctype == "address":
+        address = st.text_input(label="address")
+        if address:
+            location = geolocator.geocode(address)
+            lat = location.latitude
+            lon = location.longitude
 
-    lat = st.number_input(label="latitude", value=DEFAULT_LAT)
-    lon = st.number_input(label="longitude", value=DEFAULT_LON)
+    else:
+        lat = st.number_input(label="latitude", value=DEFAULT_LAT)
+        lon = st.number_input(label="longitude", value=DEFAULT_LON)
 
     st.write("Distance from epicenter in KM")
     radius = st.number_input(label="radius", value=DEFAULT_RADIUS)
@@ -58,7 +71,12 @@ if lat and lon:
 
 # MAIN
 
-st.title("SENSOR GRID")
+if lat and lon:
+    st.title("AQI for Coordinates (%f, %i)" % (lat, lon))
+elif address:
+    st.title("AQI for %s)" % address)
+else:
+    st.title("Enter a location to load sensor grid")
 #st.write("<hr />", unsafe_allow_html=True)
 
 with st.beta_expander(label="Map of Nearby Sensors"):

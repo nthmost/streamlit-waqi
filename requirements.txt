@@ -1,2 +1,3 @@
 purpleair
 streamlit-nightly
+geopy
